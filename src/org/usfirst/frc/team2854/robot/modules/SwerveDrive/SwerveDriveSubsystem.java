@@ -28,9 +28,10 @@ public class SwerveDriveSubsystem extends Subsystem{
   }
 
   public Vector[] genPlan(Vector trans, double rot){
+    double a = -Math.toRadians(gyro.getAngle()%360);
     Vector[] vectors = new Vector[4];
     for(int i = 0; i < vectors.length; i++) {
-      vectors[i] = trans.add(rotVectors[i].scale(rot));
+      vectors[i] = trans.add(rotVectors[i].scale(rot)).addAngle(a);
     }
     double max = 0;
     for(int i = 0; i < vectors.length; i++) {
@@ -51,11 +52,11 @@ public class SwerveDriveSubsystem extends Subsystem{
   // |    |
   // 0----0
   // 4    3
-  public void drive(Vector v1, Vector v2, Vector v3, Vector v4){
-    swerve1.setTargetState(v1);
-    swerve2.setTargetState(v2);
-    swerve3.setTargetState(v3);
-    swerve4.setTargetState(v4);
+  public void drive(Vector[] vectors){
+    swerve1.setTargetState(vectors[0]);
+    swerve2.setTargetState(vectors[1]);
+    swerve3.setTargetState(vectors[2]);
+    swerve4.setTargetState(vectors[3]);
   }
 
   @Override

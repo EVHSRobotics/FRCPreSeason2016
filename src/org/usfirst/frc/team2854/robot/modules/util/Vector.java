@@ -16,11 +16,23 @@ public class Vector{
     radius = Math.sqrt(x*x+y*y);
   }
 
+  public Vector(double r, double a, boolean f){
+    radius = r;
+    angle = a;
+    x = r*Math.cos(a);
+    y = r*Math.sin(a);
+  }
+
+
   public Vector add(Vector other){
     return new Vector(x+other.x, y+other.y);
   }
 
   public Vector scale(double s){
     return new Vector(x*s, y*s);
+  }
+
+  public Vector addAngle(double a){
+    return new Vector(radius, angle + a, true);
   }
 }
