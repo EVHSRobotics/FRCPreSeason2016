@@ -32,7 +32,7 @@ public class SwerveDriveCommand extends Command{
 
   @Override
   protected void execute(){
-    swerveDrive.drive(swerveDrive.genPlan(new Vector(xAxis.deadbandGet(), yAxis.deadbandGet()), lAxis.deadbandGet()-rAxis.deadbandGet()));
+    swerveDrive.drive(swerveDrive.genPlan(new Vector(xAxis.deadbandGet(), -yAxis.deadbandGet()), lAxis.deadbandGet()-rAxis.deadbandGet()));
   }
 
   @Override
