@@ -12,31 +12,43 @@ import org.usfirst.frc.team2854.robot.modules.util.Vector;
 public class SwerveDriveSubsystem extends Subsystem{
   private static final Vector[] rotVectors = {new Vector(-1, -1), new Vector(-1, 1), new Vector(1, 1), new Vector(1, -1)};
 
+  private final SwerveSubsystem swerve0;
   private final SwerveSubsystem swerve1;
   private final SwerveSubsystem swerve2;
   private final SwerveSubsystem swerve3;
-  private final SwerveSubsystem swerve4;
+
   private final Gyro gyro;
 
-  public SwerveDriveSubsystem(SwerveSubsystem aSwerve1, SwerveSubsystem aSwerve2, SwerveSubsystem aSwerve3, SwerveSubsystem aSwerve4, Gyro aGyro){
+  public SwerveDriveSubsystem(SwerveSubsystem aSwerve0, SwerveSubsystem aSwerve1, SwerveSubsystem aSwerve2, SwerveSubsystem aSwerve3, Gyro aGyro){
+    swerve0 = aSwerve0;
     swerve1 = aSwerve1;
     swerve2 = aSwerve2;
     swerve3 = aSwerve3;
-    swerve4 = aSwerve4;
 
     gyro = aGyro;
   }
 
+  /**
+   * generate movement vectors for each swerve subsystem
+   * vectors should already be adjusted for rotation via gyro
+   *
+   * @param trans translation vector of controller [x, y] coordinates
+   * @param rot rotation vector [x] in counterclockwise (positive) or clockwise (negative)
+   * @return array of 4 vectors for each wheel
+   */
   public Vector[] genPlan(Vector trans, double rot){
+    //adjust for rotation of robot using gyro
     double a = -Math.toRadians(gyro.getAngle()%360);
     Vector[] vectors = new Vector[4];
     for(int i = 0; i < vectors.length; i++) {
       vectors[i] = trans.add(rotVectors[i].scale(rot)).addAngle(a);
     }
+    //find if any magnitude exceeds 1
     double max = 0;
     for(int i = 0; i < vectors.length; i++) {
-      max = Math.max(max, Math.max(Math.abs(vectors[i].x), Math.abs(vectors[i].y)));
+      max = Math.max(max, Math.abs(vectors[i].radius));
     }
+    //scale vectors to less than 1 if needed
     if(max > 1) {
       double reciprocal = 1/max;
       for(int i = 0; i < vectors.length; i++) {
@@ -46,17 +58,21 @@ public class SwerveDriveSubsystem extends Subsystem{
     return vectors;
   }
 
-  // 1    2
+  // 0    1
   // 0----0
   // |    |
   // |    |
   // 0----0
-  // 4    3
+  // 3    2
+  /**
+   * broadcasts the state of each swerve subsystem
+   * @param vectors array of 4 vectors for each of the swerve subsystems
+   */
   public void drive(Vector[] vectors){
-    swerve1.setTargetState(vectors[0]);
-    swerve2.setTargetState(vectors[1]);
-    swerve3.setTargetState(vectors[2]);
-    swerve4.setTargetState(vectors[3]);
+    swerve0.setTargetState(vectors[0]);
+    swerve1.setTargetState(vectors[1]);
+    swerve2.setTargetState(vectors[2]);
+    swerve3.setTargetState(vectors[3]);
   }
 
   @Override
@@ -64,9 +80,3 @@ public class SwerveDriveSubsystem extends Subsystem{
     setDefaultCommand(new NoopCommand());
   }
 }
-
-/**
- * If you wanted...
- * You could have this constant value that's added to the gyro
- * Equal to the difference between the value when you reset it and 360
- */

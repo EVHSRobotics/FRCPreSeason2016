@@ -16,7 +16,7 @@ public class SwerveSubsystem extends PIDSubsystem{
   private static final double VERY_CLOSE_ENOUGH = 0.02454;
   private static final double CLOSE_ENOUGH = 0.1963;
   private static final double TAU = Math.PI*2;
-  private static final double ENCODER_TAU = 250; // !!! NEED TO MODIFY THIS VALUE !!!
+  private static final double ENCODER_TAU = 250; // !!! NEED TO CALIBRATE THIS VALUE !!!
 
   private final SpeedController driveControl;
   private final SpeedController turnControl;
@@ -43,6 +43,7 @@ public class SwerveSubsystem extends PIDSubsystem{
       angle = current+difference;
     }
     setSetpoint(angle);
+    //catch values greater than 1 in magnitude (which should not appear)
     driveControl.set(Math.min(Math.abs(aVector.radius), 1)*Math.signum(aVector.radius));
   }
 

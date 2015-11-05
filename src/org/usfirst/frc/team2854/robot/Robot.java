@@ -12,10 +12,10 @@ import org.usfirst.frc.team2854.robot.modules.SwerveDrive.SwerveSubsystem;
  * Created by Kevin on 10/23/2015.
  */
 public class Robot extends IterativeRobot{
-  public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(new SwerveSubsystem("swerve1", RMap.Config.EPID, RMap.MA, RMap.MAA, RMap.EA),
-                                                                                    new SwerveSubsystem("swerve2", RMap.Config.EPID, RMap.MB, RMap.MBB, RMap.EB),
-                                                                                    new SwerveSubsystem("swerve3", RMap.Config.EPID, RMap.MC, RMap.MCC, RMap.EC),
-                                                                                    new SwerveSubsystem("swerve4", RMap.Config.EPID, RMap.MD, RMap.MDD, RMap.ED),
+  public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(new SwerveSubsystem("swerve0", RMap.Config.EPID, RMap.MA, RMap.MAA, RMap.EA),
+                                                                                    new SwerveSubsystem("swerve1", RMap.Config.EPID, RMap.MB, RMap.MBB, RMap.EB),
+                                                                                    new SwerveSubsystem("swerve2", RMap.Config.EPID, RMap.MC, RMap.MCC, RMap.EC),
+                                                                                    new SwerveSubsystem("swerve3", RMap.Config.EPID, RMap.MD, RMap.MDD, RMap.ED),
                                                                                     RMap.GRobot);
 
   public static OI oi;
