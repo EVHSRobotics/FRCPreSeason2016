@@ -16,7 +16,7 @@ public class SwerveSubsystem extends PIDSubsystem{
   private static final double VERY_CLOSE_ENOUGH = 0.02454;
   private static final double CLOSE_ENOUGH = 0.1963;
   private static final double TAU = Math.PI*2;
-  private static final double ENCODER_TAU = 250; // !!! NEED TO CALIBRATE THIS VALUE !!!
+  private static final double ENCODER_TAU = 250; // !!! NEED TO CALIBRATE THIS VALUE [make sure it is spinning counterclockwise] !!!
 
   private final SpeedController driveControl;
   private final SpeedController turnControl;
@@ -47,6 +47,15 @@ public class SwerveSubsystem extends PIDSubsystem{
     driveControl.set(Math.min(Math.abs(aVector.radius), 1)*Math.signum(aVector.radius));
   }
 
+  public void start(){
+    enable();
+  }
+
+  public void stop(){
+    disable();
+    driveControl.set(0);
+  }
+
   public static double encoderToRadians(double encoderRaw){
     return encoderRaw/ENCODER_TAU*TAU;
   }
@@ -59,7 +68,7 @@ public class SwerveSubsystem extends PIDSubsystem{
 
   @Override
   protected void usePIDOutput(double v){
-
+    turnControl.set(v);
   }
 
   @Override

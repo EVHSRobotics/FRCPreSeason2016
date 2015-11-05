@@ -12,7 +12,7 @@ public class OI{
 //  public final Controller controller1;
 
   public OI(){
-    controller0 = new Controller(new Joystick(0));
-//    controller1 = new Controller(new Joystick(1));
+    controller0 = new Controller(new Joystick(0), 0.05);
+//    controller1 = new Controller(new Joystick(1), 0.05);
   }
 }

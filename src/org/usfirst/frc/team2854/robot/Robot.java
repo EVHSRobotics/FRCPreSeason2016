@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import org.usfirst.frc.team2854.robot.modules.SwerveDrive.SwerveDriveCommand;
 import org.usfirst.frc.team2854.robot.modules.SwerveDrive.SwerveDriveSubsystem;
 import org.usfirst.frc.team2854.robot.modules.SwerveDrive.SwerveSubsystem;
 
@@ -12,20 +13,20 @@ import org.usfirst.frc.team2854.robot.modules.SwerveDrive.SwerveSubsystem;
  * Created by Kevin on 10/23/2015.
  */
 public class Robot extends IterativeRobot{
-  public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(new SwerveSubsystem("swerve0", RMap.Config.EPID, RMap.MA, RMap.MAA, RMap.EA),
+  private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(new SwerveSubsystem("swerve0", RMap.Config.EPID, RMap.MA, RMap.MAA, RMap.EA),
                                                                                     new SwerveSubsystem("swerve1", RMap.Config.EPID, RMap.MB, RMap.MBB, RMap.EB),
                                                                                     new SwerveSubsystem("swerve2", RMap.Config.EPID, RMap.MC, RMap.MCC, RMap.EC),
                                                                                     new SwerveSubsystem("swerve3", RMap.Config.EPID, RMap.MD, RMap.MDD, RMap.ED),
                                                                                     RMap.GRobot);
 
-  public static OI oi;
+  private OI oi;
 
   private Command autonomousCommand;
 
   @Override
   public void robotInit(){
     super.robotInit();
-    oi = new OI(); //need to wait for controllers to initialize
+    oi = new OI(); //need to wait for connection for controllers to initialize
 
     autonomousCommand = null;
   }
@@ -49,6 +50,7 @@ public class Robot extends IterativeRobot{
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    Scheduler.getInstance().add(new SwerveDriveCommand(swerveDriveSubsystem, oi.controller0.alx, oi.controller0.aly, oi.controller0.alt, oi.controller0.art));
   }
 
   @Override

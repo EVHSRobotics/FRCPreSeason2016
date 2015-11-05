@@ -28,7 +28,7 @@ public class Controller{
   public final Axis alt;
   public final Axis art;
 
-  public Controller(Joystick aJoystick){
+  public Controller(Joystick aJoystick, double aDeadband){
     joystick = aJoystick;
 
     ba = new Button(joystick, ButtonType.a);
@@ -42,13 +42,15 @@ public class Controller{
     bls = new Button(joystick, ButtonType.ls);
     brs = new Button(joystick, ButtonType.rs);
 
-    alx = new Axis(joystick, AxisType.lx);
-    aly = new Axis(joystick, AxisType.ly);
-    arx = new Axis(joystick, AxisType.rx);
-    ary = new Axis(joystick, AxisType.ry);
-    alt = new Axis(joystick, AxisType.lt);
-    art = new Axis(joystick, AxisType.rt);
+    alx = new Axis(joystick, AxisType.lx, aDeadband);
+    aly = new Axis(joystick, AxisType.ly, aDeadband);
+    arx = new Axis(joystick, AxisType.rx, aDeadband);
+    ary = new Axis(joystick, AxisType.ry, aDeadband);
+    alt = new Axis(joystick, AxisType.lt, aDeadband);
+    art = new Axis(joystick, AxisType.rt, aDeadband);
   }
 
-
+  public Controller(Joystick aJoystick){
+    this(aJoystick, 0.05);
+  }
 }

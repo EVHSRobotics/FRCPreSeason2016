@@ -75,6 +75,26 @@ public class SwerveDriveSubsystem extends Subsystem{
     swerve3.setTargetState(vectors[3]);
   }
 
+  /**
+   * reenable subsystems and pid
+   */
+  public void start(){
+    swerve0.start();
+    swerve1.start();
+    swerve2.start();
+    swerve3.start();
+  }
+
+  /**
+   * disable subsystems
+   */
+  public void stop(){
+    swerve0.stop();
+    swerve1.stop();
+    swerve2.stop();
+    swerve3.stop();
+  }
+
   @Override
   protected void initDefaultCommand(){
     setDefaultCommand(new NoopCommand());
